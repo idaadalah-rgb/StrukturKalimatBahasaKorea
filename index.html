@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif Bahasa Korea - Fase E SMA</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Fredoka & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 50%, #e0e7ff 100%);
+            min-height: 100vh;
+        }
+        .font-fredoka { font-family: 'Fredoka', cursive; }
+        
+        /* 3D Pixar Style Button Effects */
+        .btn-pixar {
+            box-shadow: 0 8px 0 rgba(0,0,0,0.15), 0 15px 20px rgba(0,0,0,0.1);
+            transition: all 0.15s ease;
+        }
+        .btn-pixar:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.15), 0 5px 10px rgba(0,0,0,0.1);
+        }
+        .card-pixar {
+            box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+
+        @keyframes bounce-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .animate-bounce-subtle { animation: bounce-subtle 2s ease-in-out infinite; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #93c5fd; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #60a5fa; }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col min-h-screen selection:bg-sky-200">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b-4 border-sky-300 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showSection('home')">
+                <div class="w-12 h-12 bg-gradient-to-tr from-sky-400 to-indigo-500 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg transform -rotate-3 hover:rotate-0 transition">
+                    한
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold font-fredoka bg-gradient-to-r from-sky-600 to-indigo-600 bg-clip-text text-transparent">
+                        Hangeul Edu3D
+                    </h1>
+                    <p class="text-xs text-slate-500 font-semibold">Kelas 10 SMA • Fase E</p>
+                </div>
+            </div>
+
+            <!-- Audio Control & Desktop Nav -->
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- Music Toggle Button -->
+                <button id="bgm-toggle-btn" onclick="toggleBGM()" class="px-3 py-2 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-800 text-xs sm:text-sm font-bold transition flex items-center gap-2 border border-amber-300">
+                    <i id="bgm-icon" class="fa-solid fa-music text-amber-600"></i>
+                    <span id="bgm-text" class="hidden sm:inline">Musik: Matikan</span>
+                </button>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex space-x-2 font-semibold text-sm">
+                    <button onclick="showSection('home')" class="nav-btn px-4 py-2 rounded-xl hover:bg-sky-100 text-slate-700 transition flex items-center gap-2">
+                <button onclick="showSection('gim')" class="nav-btn px-4 py-2 rounded-xl hover:bg-sky-100 text-slate-700 transition flex items-center gap-2">
+                    <i class="fa-solid fa-gamepad text-purple-500"></i> Gim (3)
+                </button>
+                <button onclick="showSection('quiz')" class="nav-btn px-4 py-2 rounded-xl hover:bg-sky-100 text-slate-700 transition flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-rose-500"></i> Kuis Evaluasi
+                </button>
+                <button onclick="showSection('pengembang')" class="nav-btn px-4 py-2 rounded-xl hover:bg-sky-100 text-slate-700 transition flex items-center gap-2">
+                    <i class="fa-solid fa-user-gear text-indigo-500"></i> Pengembang
+                </button>
+            </nav>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg bg-sky-100 text-sky-700">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-sky-100 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="showSection('home'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sky-50 font-semibold flex items-center gap-3">
+                <i class="fa-solid fa-house text-sky-500"></i> Beranda
+            </button>
+            <button onclick="showSection('panduan'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sky-50 font-semibold flex items-center gap-3">
+                <i class="fa-solid fa-compass text-amber-500"></i> Panduan & Tujuan
+            </button>
+            <button onclick="showSection('materi'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sky-50 font-semibold flex items-center gap-3">
+                <i class="fa-solid fa-book-open text-emerald-500"></i> Materi & Simulasi
+            </button>
+            <button onclick="showSection('gim'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sky-50 font-semibold flex items-center gap-3">
+                <i class="fa-solid fa-gamepad text-purple-500"></i> Gim Edukasi
+            </button>
+            <button onclick="showSection('quiz'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sky-50 font-semibold flex items-center gap-3">
+                <i class="fa-solid fa-pen-to-square text-rose-500"></i> Kuis Evaluasi
+            </button>
+            <button onclick="showSection('pengembang'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg hover:bg-sky-50 font-semibold flex items-center gap-3">
+                <i class="fa-solid fa-user-gear text-indigo-500"></i> Pengembang
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- SECTION: BERANDA -->
+        <section id="sec-home" class="space-y-8 animate-fade">
+            <div class="bg-gradient-to-r from-sky-400 via-indigo-400 to-purple-400 rounded-3xl p-8 sm:p-12 text-white card-pixar relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 opacity-20 text-[180px] font-bold pointer-events-none">
+                    한국어
+                </div>
+                <div class="max-w-2xl relative z-10 space-y-6">
+                    <span class="inline-block bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide uppercase">
+                        ✨ Media Pembelajaran Interaktif 3D
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold font-fredoka leading-tight drop-shadow-sm">
+                        Kuasai Kalimat & Struktur Bahasa Korea dengan Mudah!
+                    </h2>
+                    <p class="text-lg text-sky-50 leading-relaxed font-medium">
+                        Halo Chingu! Selamat datang di aplikasi pembelajaran interaktif khusus siswa SMA Kelas 10 (Fase E). Belajar pola kalimat S-O-V, partikel, hingga tempat & waktu jadi lebih gampang dan seru!
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <button onclick="showSection('materi')" class="btn-pixar bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold px-8 py-4 rounded-2xl flex items-center gap-3 text-lg transition">
+                            <i class="fa-solid fa-rocket text-xl"></i> Mulai Belajar Now
+                        </button>
+                        <button onclick="showSection('gim')" class="btn-pixar bg-white hover:bg-slate-50 text-indigo-600 font-bold px-8 py-4 rounded-2xl flex items-center gap-3 text-lg transition">
+                            <i class="fa-solid fa-gamepad text-xl"></i> Mainkan Gim
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div onclick="showSection('materi')" class="bg-white p-6 rounded-3xl card-pixar hover:scale-105 transition cursor-pointer border-t-8 border-emerald-400">
+                    <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600 text-2xl mb-4">
+                        <i class="fa-solid fa-cubes"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-fredoka mb-2 text-slate-800">1. Materi & Simulasi</h3>
+                    <p class="text-slate-600 text-sm">Pelajari Partikel (은/는, 이/가, 을/를, 에, 에서) & Simulasi Rakit Kalimat Sekolah & Hobi.</p>
+                </div>
+                <div onclick="showSection('gim')" class="bg-white p-6 rounded-3xl card-pixar hover:scale-105 transition cursor-pointer border-t-8 border-purple-400">
+                    <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-600 text-2xl mb-4">
+                        <i class="fa-solid fa-dice text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-fredoka mb-2 text-slate-800">2. 3 Gim Mini Interaktif</h3>
+                    <p class="text-slate-600 text-sm">Asah kemampuanmu lewat Gim Susun Kalimat Sekolah, Detektif Partikel, dan Tebak Kosakata Sehari-hari!</p>
+                </div>
+                <div onclick="showSection('quiz')" class="bg-white p-6 rounded-3xl card-pixar hover:scale-105 transition cursor-pointer border-t-8 border-rose-400">
+                    <div class="w-14 h-14 bg-rose-100 rounded-2xl flex items-center justify-center text-rose-600 text-2xl mb-4">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-fredoka mb-2 text-slate-800">3. Kuis Evaluasi</h3>
+                    <p class="text-slate-600 text-sm">Uji pemahamanmu lewat 5 Soal PG berumpan balik instan dengan skor otomatis.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: PANDUAN & TUJUAN PEMBELAJARAN -->
+        <section id="sec-panduan" class="hidden space-y-8 animate-fade">
+            <div class="bg-white rounded-3xl p-8 card-pixar border-l-8 border-amber-400">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-amber-600 text-2xl">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-bold font-fredoka text-slate-800">Tujuan Pembelajaran</h2>
+                        <p class="text-slate-500 font-medium">Capaian Pembelajaran Bahasa Korea Fase E (Kelas 10 SMA)</p>
+                    </div>
+                </div>
+                <div class="bg-amber-50/60 p-6 rounded-2xl border border-amber-200/60 text-slate-700 space-y-3">
+                    <p class="text-lg font-semibold text-amber-900">
+                        🎯 Target CP:
+                    </p>
+                    <p class="text-base leading-relaxed">
+                        Murid dapat <strong>memahami, menyusun, dan menerapkan kalimat tata bahasa Korea dasar</strong> (Pola S-P, S-O-V, penggunaan partikel penanda, serta Keterangan Waktu dan Tempat) secara tepat dalam situasi kehidupan sehari-hari maupun konteks pembelajaran vokasi/aktivitas sederhana.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl p-8 card-pixar border-l-8 border-sky-400">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 bg-sky-100 rounded-2xl flex items-center justify-center text-sky-600 text-2xl">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-bold font-fredoka text-slate-800">Panduan Penggunaan Website</h2>
+                        <p class="text-slate-500 font-medium">Petunjuk Alur Belajar Siswa</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-5 bg-sky-50/50 rounded-2xl border border-sky-100 flex gap-4">
+                        <div class="w-10 h-10 bg-sky-500 text-white font-bold rounded-xl flex items-center justify-center shrink-0">1</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 mb-1">Pelajari Modul Materi</h4>
+                            <p class="text-sm text-slate-600">Buka menu <strong>Materi & Simulasi</strong>. Baca penjelasan partikel dan uji simulasi tata letak kalimat interaktif.</p>
+                        </div>
+                    </div>
+                    <div class="p-5 bg-purple-50/50 rounded-2xl border border-purple-100 flex gap-4">
+                        <div class="w-10 h-10 bg-purple-500 text-white font-bold rounded-xl flex items-center justify-center shrink-0">2</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 mb-1">Mainkan 3 Gim Mini</h4>
+                            <p class="text-sm text-slate-600">Uji ketangkasanmu pada menu <strong>Gim</strong> untuk melatih kepekaan susunan kata dan kosa kata.</p>
+                        </div>
+                    </div>
+                    <div class="p-5 bg-rose-50/50 rounded-2xl border border-rose-100 flex gap-4">
+                        <div class="w-10 h-10 bg-rose-500 text-white font-bold rounded-xl flex items-center justify-center shrink-0">3</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 mb-1">Kerjakan Kuis Evaluasi</h4>
+                            <p class="text-sm text-slate-600">Jawab 5 soal Pilihan Ganda. Dengarkan efek suara feedback untuk mengetahui kebenaran jawabanmu!</p>
+                        </div>
+                    </div>
+                    <div class="p-5 bg-emerald-50/50 rounded-2xl border border-emerald-100 flex gap-4">
+                        <div class="w-10 h-10 bg-emerald-500 text-white font-bold rounded-xl flex items-center justify-center shrink-0">4</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 mb-1">Evaluasi & Refleksi</h4>
+                            <p class="text-sm text-slate-600">Lihat nilai akhir dan pembahasan setelah menyelesaikan seluruh soal kuis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: MATERI & SIMULASI -->
+        <section id="sec-materi" class="hidden space-y-8 animate-fade">
+            <!-- Navigation Sub-Tabs -->
+            <div class="flex flex-wrap gap-3 bg-white p-2 rounded-2xl card-pixar justify-center">
+                <button onclick="switchMateriTab('tab1')" id="m-tab1" class="materi-tab-btn px-5 py-3 rounded-xl font-bold text-sm bg-sky-500 text-white shadow-md transition">
+                    1. Partikel Dasar
+                </button>
+                <button onclick="switchMateriTab('tab2')" id="m-tab2" class="materi-tab-btn px-5 py-3 rounded-xl font-bold text-sm text-slate-600 hover:bg-slate-100 transition">
+                    2. Pola Subjek + Predikat (S-V)
+                </button>
+                <button onclick="switchMateriTab('tab3')" id="m-tab3" class="materi-tab-btn px-5 py-3 rounded-xl font-bold text-sm text-slate-600 hover:bg-slate-100 transition">
+                    3. Kalimat Lengkap (Waktu + Tempat + S + O + V)
+                </button>
+            </div>
+
+            <!-- MATERI TAB 1: PARTIKEL -->
+            <div id="materi-content-tab1" class="space-y-6">
+                <div class="bg-white p-8 rounded-3xl card-pixar border-t-8 border-sky-400">
+                    <h3 class="text-2xl font-bold font-fredoka text-slate-800 mb-4 flex items-center gap-3">
+                        <span class="px-3 py-1 bg-sky-100 text-sky-700 rounded-xl text-sm">Bagian 1</span>
+                        Partikel Subjek, Objek, Tempat, dan Waktu
+                    </h3>
+                    <p class="text-slate-600 mb-6 leading-relaxed">
+                        Dalam bahasa Korea, setiap kata benda (Subjek, Objek, Tempat, Waktu) diikuti oleh <strong>Partikel (조사)</strong> penanda fungsi kata tersebut dalam kalimat.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Partikel Subjek -->
+                        <div class="p-5 bg-sky-50 rounded-2xl border-2 border-sky-200">
+                            <h4 class="font-bold text-lg text-sky-800 mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-user text-sky-500"></i> Partikel Subjek (은/는 & 이/가)
+                            </h4>
+                            <ul class="text-sm text-slate-700 space-y-2">
+                                <li>• <strong>은 / 는</strong> : Penanda topik kalimat / penekanan.</li>
+                                <li>• <strong>이 / 가</strong> : Penanda subjek utama.</li>
+                                <li class="bg-white p-2.5 rounded-xl text-xs font-semibold text-slate-600">
+                                    Contoh: <span class="text-sky-600 font-bold">저는</span> (Saya - topik) / <span class="text-sky-600 font-bold">물고기가</span> (Ikan - subjek)
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Partikel Objek -->
+                        <div class="p-5 bg-emerald-50 rounded-2xl border-2 border-emerald-200">
+                            <h4 class="font-bold text-lg text-emerald-800 mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-box text-emerald-500"></i> Partikel Objek (을/를)
+                            </h4>
+                            <ul class="text-sm text-slate-700 space-y-2">
+                                <li>• <strong>을</strong> : Jika kata benda berakhiran konsonan (받침).</li>
+                                <li>• <strong>를</strong> : Jika kata benda berakhiran vokal.</li>
+                                <li class="bg-white p-2.5 rounded-xl text-xs font-semibold text-slate-600">
+                                    Contoh: 밥<strong>을</strong> (Nasi), 사료<strong>를</strong> (Pakan ikan)
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Partikel Tempat 에 vs 에서 -->
+                        <div class="p-5 bg-amber-50 rounded-2xl border-2 border-amber-200">
+                            <h4 class="font-bold text-lg text-amber-800 mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-location-dot text-amber-500"></i> Partikel Tempat (에 / 에서)
+                            </h4>
+                            <ul class="text-sm text-slate-700 space-y-2">
+                                <li>• <strong>에</strong> : Menunjukkan tujuan (pergi ke...) atau keberadaan (ada di...).</li>
+                                <li>• <strong>에서</strong> : Menunjukkan tempat berlangsungnya kegiatan/aktivitas.</li>
+                                <li class="bg-white p-2.5 rounded-xl text-xs font-semibold text-slate-600">
+                                    Contoh: 학교<strong>에</strong> 갑니다 (Pergi ke sekolah) vs 도서관<strong>에서</strong> 공부합니다 (Belajar di perpustakaan)
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Partikel Waktu -->
+                        <div class="p-5 bg-purple-50 rounded-2xl border-2 border-purple-200">
+                            <h4 class="font-bold text-lg text-purple-800 mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-clock text-purple-500"></i> Partikel Waktu (에)
+                            </h4>
+                            <ul class="text-sm text-slate-700 space-y-2">
+                                <li>• Imbuhan <strong>에</strong> ditempelkan pada kata keterangan waktu.</li>
+                                <li>• <em>Catatan:</em> Untuk kata seperti 오늘 (hari ini), 어제 (kemarin), 내일 (besok) umumnya tidak perlu ditempel 에.</li>
+                                <li class="bg-white p-2.5 rounded-xl text-xs font-semibold text-slate-600">
+                                    Contoh: 아침<strong>에</strong> (Pada pagi hari), 주말<strong>에</strong> (Pada akhir pekan)
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MATERI TAB 2: PATTERN S-P -->
+            <div id="materi-content-tab2" class="space-y-6 hidden">
+                <div class="bg-white p-8 rounded-3xl card-pixar border-t-8 border-indigo-400">
+                    <h3 class="text-2xl font-bold font-fredoka text-slate-800 mb-4 flex items-center gap-3">
+                        <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-xl text-sm">Bagian 2</span>
+                        Struktur Kalimat Sederhana: Subjek + Predikat (S + P)
+                    </h3>
+                    <p class="text-slate-600 mb-6 leading-relaxed">
+                        Berbeda dari Bahasa Indonesia (S + P + O), Bahasa Korea meletakkan <strong>Kata Kerja / Predikat di PALING AKHIR</strong> kalimat!
+                    </p>
+
+                    <div class="bg-slate-900 text-white p-6 rounded-2xl text-center space-y-3 shadow-inner">
+                        <div class="text-xs uppercase tracking-widest text-sky-400 font-bold">Rumus Dasar</div>
+                        <div class="text-2xl sm:text-3xl font-extrabold font-fredoka flex justify-center items-center gap-3">
+                            <span class="bg-sky-500 px-4 py-2 rounded-xl">Subjek (S)</span>
+                            <span>+</span>
+                            <span class="bg-rose-500 px-4 py-2 rounded-xl">Predikat / Kata Kerja (V)</span>
+                        </div>
+                    </div>
+
+                    <!-- Example Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center">
+                            <p class="text-xs text-slate-500 font-bold">Contoh 1</p>
+                            <p class="text-lg font-bold text-sky-600 mt-1">저는 갑니다.</p>
+                            <p class="text-xs text-slate-600">Jeoneun gamnida</p>
+                            <p class="text-sm font-semibold text-slate-800 mt-2">"Saya pergi."</p>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center">
+                            <p class="text-xs text-slate-500 font-bold">Contoh 2</p>
+                            <p class="text-lg font-bold text-sky-600 mt-1">친구는 자요.</p>
+                            <p class="text-xs text-slate-600">Chinguneun jayeo</p>
+                            <p class="text-sm font-semibold text-slate-800 mt-2">"Teman tidur."</p>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center">
+                            <p class="text-xs text-slate-500 font-bold">Contoh 3</p>
+                            <p class="text-lg font-bold text-sky-600 mt-1">학생이 공부합니다.</p>
+                            <p class="text-xs text-slate-600">Hakseangi gongbuhamnida</p>
+                            <p class="text-sm font-semibold text-slate-800 mt-2">"Siswa belajar."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MATERI TAB 3: COMPLETE PATTERN & SIMULATOR -->
+            <div id="materi-content-tab3" class="space-y-6 hidden">
+                <div class="bg-white p-8 rounded-3xl card-pixar border-t-8 border-emerald-400">
+                    <h3 class="text-2xl font-bold font-fredoka text-slate-800 mb-4 flex items-center gap-3">
+                        <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-xl text-sm">Bagian 3</span>
+                        Struktur Kalimat Lengkap & Interactive Builder
+                    </h3>
+                    <p class="text-slate-600 mb-6 leading-relaxed">
+                        Urutan kalimat standar dalam Bahasa Korea lengkap adalah: <br>
+                        <strong class="text-emerald-700">Waktu (시간) ➔ Tempat (장소) ➔ Subjek (주어) ➔ Objek (목적어) ➔ Kata Kerja (동사)</strong>
+                    </p>
+
+                    <!-- Interactive Sentence Builder -->
+                    <div class="bg-gradient-to-br from-slate-900 to-indigo-950 p-6 sm:p-8 rounded-3xl text-white shadow-2xl space-y-6">
+                        <div class="flex justify-between items-center border-b border-slate-700 pb-4">
+                            <h4 class="text-xl font-bold font-fredoka text-amber-400 flex items-center gap-2">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Lab Simulasi Kalimat
+                            </h4>
+                            <span class="text-xs bg-indigo-500/30 text-indigo-200 px-3 py-1 rounded-full border border-indigo-400/30">Coba Klik Pilihan Block!</span>
+                        </div>
+
+                        <!-- Slots -->
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
+                            <div class="bg-slate-800/80 p-3 rounded-2xl border border-slate-700">
+                                <span class="text-[10px] uppercase font-bold text-amber-400 block mb-1">1. Waktu</span>
+                                <div id="slot-waktu" class="h-12 bg-slate-900 rounded-xl flex items-center justify-center font-bold text-sky-300 text-sm border border-dashed border-slate-600">
+                                    [Pilih Waktu]
+                                </div>
+                            </div>
+                            <div class="bg-slate-800/80 p-3 rounded-2xl border border-slate-700">
+                                <span class="text-[10px] uppercase font-bold text-emerald-400 block mb-1">2. Tempat</span>
+                                <div id="slot-tempat" class="h-12 bg-slate-900 rounded-xl flex items-center justify-center font-bold text-emerald-300 text-sm border border-dashed border-slate-600">
+                                    [Pilih Tempat]
+                                </div>
+                            </div>
+                            <div class="bg-slate-800/80 p-3 rounded-2xl border border-slate-700">
+                                <span class="text-[10px] uppercase font-bold text-sky-400 block mb-1">3. Subjek</span>
+                                <div id="slot-subjek" class="h-12 bg-slate-900 rounded-xl flex items-center justify-center font-bold text-purple-300 text-sm border border-dashed border-slate-600">
+                                    [Pilih Subjek]
+                                </div>
+                            </div>
+                            <div class="bg-slate-800/80 p-3 rounded-2xl border border-slate-700">
+                                <span class="text-[10px] uppercase font-bold text-rose-400 block mb-1">4. Objek</span>
+                                <div id="slot-objek" class="h-12 bg-slate-900 rounded-xl flex items-center justify-center font-bold text-rose-300 text-sm border border-dashed border-slate-600">
+                                    [Pilih Objek]
+                                </div>
+                            </div>
+                            <div class="bg-slate-800/80 p-3 rounded-2xl border border-slate-700 col-span-2 sm:col-span-1">
+                                <span class="text-[10px] uppercase font-bold text-indigo-400 block mb-1">5. Kata Kerja</span>
+                                <div id="slot-kerja" class="h-12 bg-slate-900 rounded-xl flex items-center justify-center font-bold text-amber-300 text-sm border border-dashed border-slate-600">
+                                    [Pilih KK]
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Word Selection Buttons -->
+                        <div class="space-y-3 pt-2">
+                            <p class="text-xs text-slate-400 font-semibold">Pilih Komponen Kata:</p>
+                            <div class="flex flex-wrap gap-2">
+                                <!-- Waktu -->
+                                <button onclick="setSimSlot('waktu', '오늘 (Hari ini)')" class="px-3 py-1.5 bg-amber-500/20 hover:bg-amber-500/40 border border-amber-500/50 rounded-xl text-xs font-bold text-amber-300 transition">
+                                    Waktu: 오늘 (Hari ini)
+                                </button>
+                                <button onclick="setSimSlot('waktu', '주말에 (Akhir pekan)')" class="px-3 py-1.5 bg-amber-500/20 hover:bg-amber-500/40 border border-amber-500/50 rounded-xl text-xs font-bold text-amber-300 transition">
+                                    Waktu: 주말에 (Akhir pekan)
+                                </button>
+
+                                <!-- Tempat -->
+                                <button onclick="setSimSlot('tempat', '학교에서 (Di sekolah)')" class="px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/50 rounded-xl text-xs font-bold text-emerald-300 transition">
+                                    Tempat: 학교에서 (Di sekolah)
+                                </button>
+                                <button onclick="setSimSlot('tempat', '카페에서 (Di kafe)')" class="px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/50 rounded-xl text-xs font-bold text-emerald-300 transition">
+                                    Tempat: 카페에서 (Di kafe)
+                                </button>
+
+                                <!-- Subjek -->
+                                <button onclick="setSimSlot('subjek', '저는 (Saya)')" class="px-3 py-1.5 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/50 rounded-xl text-xs font-bold text-sky-300 transition">
+                                    Subjek: 저는 (Saya)
+                                </button>
+                                <button onclick="setSimSlot('subjek', '우리는 (Kami)')" class="px-3 py-1.5 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/50 rounded-xl text-xs font-bold text-sky-300 transition">
+                                    Subjek: 우리는 (Kami)
+                                </button>
+
+                                <!-- Objek -->
+                                <button onclick="setSimSlot('objek', '한국어를 (B. Korea)')" class="px-3 py-1.5 bg-rose-500/20 hover:bg-rose-500/40 border border-rose-500/50 rounded-xl text-xs font-bold text-rose-300 transition">
+                                    Objek: 한국어를 (B. Korea)
+                                </button>
+                                <button onclick="setSimSlot('objek', '음악을 (Musik)')" class="px-3 py-1.5 bg-rose-500/20 hover:bg-rose-500/40 border border-rose-500/50 rounded-xl text-xs font-bold text-rose-300 transition">
+                                    Objek: 음악을 (Musik)
+                                </button>
+
+                                <!-- Kata Kerja -->
+                                <button onclick="setSimSlot('kerja', '공부합니다 (Belajar)')" class="px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/40 border border-indigo-500/50 rounded-xl text-xs font-bold text-indigo-300 transition">
+                                    KK: 공부합니다 (Belajar)
+                                </button>
+                                <button onclick="setSimSlot('kerja', '듣습니다 (Mendengar)')" class="px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/40 border border-indigo-500/50 rounded-xl text-xs font-bold text-indigo-300 transition">
+                                    KK: 듣습니다 (Mendengar)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Result Live Preview -->
+                        <div class="bg-indigo-950 p-5 rounded-2xl border border-indigo-800 text-center space-y-2">
+                            <p class="text-xs text-indigo-300 font-bold uppercase tracking-wider">Hasil Kalimat Terbentuk:</p>
+                            <p id="sim-result-korean" class="text-2xl font-bold font-fredoka text-amber-300">
+                                [Lengkapi kata di atas]
+                            </p>
+                            <p id="sim-result-indo" class="text-sm text-slate-300">
+                                "..."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: GIM (3 MINI GAMES) -->
+        <section id="sec-gim" class="hidden space-y-8 animate-fade">
+            <div class="bg-white p-6 rounded-3xl card-pixar flex flex-wrap justify-between items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold font-fredoka text-slate-800">3 Mini Gim Edukasi Bahasa Korea</h2>
+                    <p class="text-slate-500 text-sm">Bermain sambil mengasah pemahaman struktur kalimat & kosakata sekolah / aktivitas remaja.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="switchGame(1)" id="gbtn-1" class="px-4 py-2 rounded-xl font-bold text-sm bg-purple-600 text-white shadow-md">Gim 1: Susun Kalimat</button>
+                    <button onclick="switchGame(2)" id="gbtn-2" class="px-4 py-2 rounded-xl font-bold text-sm bg-slate-100 text-slate-700 hover:bg-slate-200">Gim 2: Detektif Partikel</button>
+                    <button onclick="switchGame(3)" id="gbtn-3" class="px-4 py-2 rounded-xl font-bold text-sm bg-slate-100 text-slate-700 hover:bg-slate-200">Gim 3: Kilat Kosakata</button>
+                </div>
+            </div>
+
+            <!-- GIM 1: SUSUN KALIMAT -->
+            <div id="game-1" class="bg-white p-8 rounded-3xl card-pixar space-y-6">
+                <div class="flex justify-between items-center border-b pb-4">
+                    <div>
+                        <span class="text-xs bg-purple-100 text-purple-700 font-bold px-3 py-1 rounded-full">Gim 1</span>
+                        <h3 class="text-xl font-bold font-fredoka text-slate-800 mt-1">Gim Susun Kata Aktivitas Sekolah</h3>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-slate-500">Skor Gim 1</p>
+                        <p id="g1-score" class="text-2xl font-bold text-purple-600">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-purple-50 p-6 rounded-2xl border border-purple-100 space-y-4">
+                    <p class="text-sm font-semibold text-slate-700">
+                        Terjemahkan kalimat berikut ke struktur Bahasa Korea yang tepat:
+                    </p>
+                    <div class="bg-white p-4 rounded-xl border border-purple-200 text-center">
+                        <p id="g1-target-sentence" class="text-lg font-bold text-purple-900">
+                            "Hari ini saya belajar bahasa Korea di sekolah."
+                        </p>
+                    </div>
+
+                    <!-- Selected Words Slot -->
+                    <div id="g1-user-slots" class="min-h-16 bg-slate-100 rounded-xl p-3 border-2 border-dashed border-purple-300 flex flex-wrap gap-2 items-center">
+                        <span class="text-xs text-slate-400 font-medium italic">Klik blok kata di bawah untuk menyusun...</span>
+                    </div>
+
+                    <!-- Option Words -->
+                    <div id="g1-word-options" class="flex flex-wrap gap-2 pt-2">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div class="flex justify-between items-center pt-4">
+                        <button onclick="resetGame1()" class="px-4 py-2 text-slate-600 hover:bg-slate-200 rounded-xl text-sm font-bold">
+                            <i class="fa-solid fa-rotate-left"></i> Reset
+                        </button>
+                        <button onclick="checkGame1()" class="btn-pixar bg-purple-600 hover:bg-purple-500 text-white px-6 py-2.5 rounded-xl font-bold text-sm">
+                            Cek Jawaban <i class="fa-solid fa-check ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GIM 2: DETEKTIF PARTIKEL -->
+            <div id="game-2" class="bg-white p-8 rounded-3xl card-pixar space-y-6 hidden">
+                <div class="flex justify-between items-center border-b pb-4">
+                    <div>
+                        <span class="text-xs bg-sky-100 text-sky-700 font-bold px-3 py-1 rounded-full">Gim 2</span>
+                        <h3 class="text-xl font-bold font-fredoka text-slate-800 mt-1">Detektif Partikel Tempat (에 vs 에서)</h3>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-slate-500">Skor Gim 2</p>
+                        <p id="g2-score" class="text-2xl font-bold text-sky-600">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-sky-50 p-6 rounded-2xl border border-sky-100 space-y-6">
+                    <p class="text-sm font-semibold text-slate-700">
+                        Pilih partikel tempat yang paling tepat untuk mengisi bagian rumpang [ ? ]:
+                    </p>
+
+                    <div class="bg-white p-6 rounded-2xl border border-sky-200 text-center space-y-2">
+                        <p id="g2-question" class="text-2xl font-bold text-slate-800">
+                            저는 오늘 학교[ ? ] 갑니다.
+                        </p>
+                        <p id="g2-translation" class="text-sm text-slate-500">
+                            (Saya hari ini pergi KE sekolah.)
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
+                        <button onclick="answerGame2('에')" class="btn-pixar bg-sky-500 hover:bg-sky-400 text-white py-4 rounded-2xl font-bold text-xl">
+                            에
+                        </button>
+                        <button onclick="answerGame2('에서')" class="btn-pixar bg-indigo-500 hover:bg-indigo-400 text-white py-4 rounded-2xl font-bold text-xl">
+                            에서
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GIM 3: KILAT KOSAKATA -->
+            <div id="game-3" class="bg-white p-8 rounded-3xl card-pixar space-y-6 hidden">
+                <div class="flex justify-between items-center border-b pb-4">
+                    <div>
+                        <span class="text-xs bg-amber-100 text-amber-700 font-bold px-3 py-1 rounded-full">Gim 3</span>
+                        <h3 class="text-xl font-bold font-fredoka text-slate-800 mt-1">Tebak Kilat Kosakata Sekolah & Hobi</h3>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-slate-500">Skor Gim 3</p>
+                        <p id="g3-score" class="text-2xl font-bold text-amber-600">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 p-6 rounded-2xl border border-amber-100 space-y-6">
+                    <div class="text-center space-y-2">
+                        <span class="text-xs uppercase tracking-widest font-bold text-amber-600">Kata Bahasa Korea:</span>
+                        <div id="g3-korean-word" class="text-4xl font-extrabold font-fredoka text-slate-900 bg-white py-6 rounded-2xl border border-amber-200 shadow-sm">
+                            학교
+                        </div>
+                    </div>
+
+                    <div id="g3-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: KUIS EVALUASI (5 PG) -->
+        <section id="sec-quiz" class="hidden space-y-8 animate-fade">
+            <div class="bg-white p-8 rounded-3xl card-pixar space-y-6 border-t-8 border-rose-500">
+                <div class="flex justify-between items-center border-b pb-4">
+                    <div>
+                        <span class="text-xs bg-rose-100 text-rose-700 font-bold px-3 py-1 rounded-full">Evaluasi Pembelajaran</span>
+                        <h2 class="text-2xl font-bold font-fredoka text-slate-800 mt-1">Kuis Multiple Choice (5 Soal)</h2>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-slate-500">Progress Soal</p>
+                        <p id="quiz-progress-text" class="text-lg font-bold text-rose-600">Soal 1 dari 5</p>
+                    </div>
+                </div>
+
+                <!-- Quiz Card Container -->
+                <div id="quiz-card" class="bg-rose-50/50 p-6 rounded-2xl border border-rose-100 space-y-6">
+                    <div class="space-y-2">
+                        <span id="quiz-q-number" class="text-xs font-bold text-rose-500 uppercase tracking-wider">Soal #1</span>
+                        <h3 id="quiz-q-text" class="text-xl font-bold text-slate-800">
+                            Loading pertanyaan...
+                        </h3>
+                    </div>
+
+                    <!-- Options -->
+                    <div id="quiz-options-container" class="space-y-3">
+                        <!-- Options generated by JS -->
+                    </div>
+
+                    <!-- Feedback Box -->
+                    <div id="quiz-feedback" class="hidden p-4 rounded-xl font-semibold text-sm"></div>
+
+                    <!-- Next Button -->
+                    <div class="flex justify-end pt-2">
+                        <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="hidden btn-pixar bg-rose-600 hover:bg-rose-500 text-white px-6 py-3 rounded-xl font-bold text-sm">
+                            Soal Berikutnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Result Summary -->
+                <div id="quiz-result-card" class="hidden text-center space-y-6 py-8">
+                    <div class="w-24 h-24 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center text-5xl mx-auto shadow-inner">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-3xl font-extrabold font-fredoka text-slate-800">Selamat! Kuis Selesai</h3>
+                        <p class="text-slate-600">Berikut adalah hasil evaluasi pemahamanmu:</p>
+                    </div>
+
+                    <div class="bg-slate-900 text-white p-6 rounded-2xl max-w-sm mx-auto shadow-xl">
+                        <p class="text-xs text-slate-400 font-bold uppercase">Skor Akhir Kamu</p>
+                        <p id="quiz-final-score" class="text-5xl font-black font-fredoka text-amber-400 mt-1">100</p>
+                        <p id="quiz-score-remark" class="text-xs text-sky-300 mt-2">Sangat Luar Biasa!</p>
+                    </div>
+
+                    <button onclick="restartQuiz()" class="btn-pixar bg-rose-600 hover:bg-rose-500 text-white px-8 py-3.5 rounded-2xl font-bold text-base">
+                        <i class="fa-solid fa-rotate-right mr-2"></i> Coba Kuis Lagi
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: PENGEMBANG -->
+        <section id="sec-pengembang" class="hidden space-y-8 animate-fade">
+            <div class="bg-white p-8 rounded-3xl card-pixar border-t-8 border-indigo-500 max-w-3xl mx-auto text-center space-y-6">
+                <!-- Avatar Pixar 3D Illustration Placeholder -->
+                <div class="relative w-36 h-36 mx-auto">
+                    <div class="w-36 h-36 bg-gradient-to-tr from-sky-400 via-indigo-400 to-purple-400 rounded-full p-1.5 shadow-xl animate-bounce-subtle">
+                        <img src="https://placehold.co/300x300/4f46e5/ffffff?text=Guru+Bahasa+Korea" alt="Profil Pengembang Ida Farida, M.Pd" class="w-full h-full object-cover rounded-full border-4 border-white">
+                    </div>
+                    <span class="absolute bottom-1 right-1 bg-amber-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                        👩‍🏫 Guru
+                    </span>
+                </div>
+
+                <div class="space-y-2">
+                    <h2 class="text-3xl font-extrabold font-fredoka text-slate-800">Ida Farida, M.Pd</h2>
+                    <p class="text-indigo-600 font-bold">Guru Bahasa Korea</p>
+                    <p class="text-slate-500 text-sm font-semibold">SMAS Daar El Qolam 2</p>
+                </div>
+
+                <div class="bg-indigo-50/60 p-6 rounded-2xl border border-indigo-100 text-left text-sm text-slate-700 space-y-3">
+                    <h4 class="font-bold text-indigo-900 text-base flex items-center gap-2">
+                        <i class="fa-solid fa-award text-amber-500"></i> Profil & Dedikasi Media
+                    </h4>
+                    <p class="leading-relaxed">
+                        Media pembelajaran interaktif ini dikembangkan secara khusus untuk mendampingi siswa-siswi Kelas 10 SMA (Fase E) dalam menguasai kompetensi dasar tata bahasa Korea. Dengan memadukan prinsip kecerdasan visual 3D Pixar, interaktivitas gim edukatif kehidupan sekolah, serta soal evaluasi otomatis, diharapkan murid dapat belajar Bahasa Korea secara aktif, efektif, dan menyenangkan.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left text-xs font-semibold">
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <span class="text-slate-400 block mb-1">Sasaran Pengguna</span>
+                        <span class="text-slate-800 text-sm">Siswa Kelas 10 SMA (Fase E)</span>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <span class="text-slate-400 block mb-1">Materi Fokus</span>
+                        <span class="text-slate-800 text-sm">Struktur Kalimat & Partikel B. Korea</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p>© 2026 Media Pembelajaran Interaktif Bahasa Korea - SMAS Daar El Qolam 2.</p>
+            <p>Dikembangkan oleh <strong>Ida Farida, M.Pd</strong> untuk Kelas 10 SMA (Fase E).</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* ==========================================================================
+           AUDIO SYNTHESIZER FOR SOUND EFFECTS & INSTRUMENTAL KOREAN BGM
+           ========================================================================== */
+        const AudioFX = {
+            ctx: null,
+            bgmOscillators: [],
+            isBGMPlaying: false,
+            bgmInterval: null,
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            },
+            playCorrect() {
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.15); // E5
+                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.3); // G5
+                
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                
+                osc.start(now);
+                osc.stop(now + 0.5);
+            },
+            playWrong() {
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now); // A3
+                osc.frequency.setValueAtTime(174.61, now + 0.15); // F3
+                
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                
+                osc.start(now);
+                osc.stop(now + 0.4);
+            },
+            // Traditional Korean Pentatonic Scale (Gayageum Style Synthesizer)
+            // Scale: Eb4, F4, Ab4, Bb4, Db5, Eb5
+            playKoreanBGM() {
+                this.init();
+                if (this.isBGMPlaying) return;
+                this.isBGMPlaying = true;
+
+                const koreanScale = [311.13, 349.23, 415.30, 466.16, 554.37, 622.25, 698.46];
+                let noteIndex = 0;
+                
+                // Arpeggio & Melody sequence mimicking traditional Korean Gayageum zither
+                const playGayageumNote = (freq, duration, delay) => {
+                    if (!this.isBGMPlaying) return;
+                    const now = this.ctx.currentTime + delay;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+
+                    osc.type = 'sine'; // Soft gentle tone
+                    osc.frequency.setValueAtTime(freq, now);
+
+                    // Add subtle Gayageum vibrato (Nonghyyeon style)
+                    const lfo = this.ctx.createOscillator();
+                    const lfoGain = this.ctx.createGain();
+                    lfo.frequency.value = 5; // 5Hz vibrato
+                    lfoGain.gain.value = 3;
+                    lfo.connect(osc.frequency);
+                    lfo.start(now);
+                    lfo.stop(now + duration);
+
+                    gain.gain.setValueAtTime(0.001, now);
+                    gain.gain.linearRampToValueAtTime(0.08, now + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    osc.start(now);
+                    osc.stop(now + duration);
+                };
+
+                const melodyPattern = [0, 2, 3, 4, 3, 2, 1, 0, 4, 5, 4, 2, 3, 1, 0];
+                let step = 0;
+
+                this.bgmInterval = setInterval(() => {
+                    if (!this.isBGMPlaying) return;
+                    const noteFreq = koreanScale[melodyPattern[step % melodyPattern.length]];
+                    playGayageumNote(noteFreq, 0.8, 0);
+                    
+                    // Drone bass note every 4 beats
+                    if (step % 4 === 0) {
+                        playGayageumNote(koreanScale[0] / 2, 1.8, 0);
+                    }
+                    step++;
+                }, 400);
+            },
+            stopKoreanBGM() {
+                this.isBGMPlaying = false;
+                if (this.bgmInterval) {
+                    clearInterval(this.bgmInterval);
+                    this.bgmInterval = null;
+                }
+            }
+        };
+
+        function toggleBGM() {
+            const btnText = document.getElementById('bgm-text');
+            const btnIcon = document.getElementById('bgm-icon');
+            
+            if (AudioFX.isBGMPlaying) {
+                AudioFX.stopKoreanBGM();
+                btnText.innerText = "Musik: Matikan";
+                btnIcon.className = "fa-solid fa-music text-amber-600";
+            } else {
+                AudioFX.playKoreanBGM();
+                btnText.innerText = "Musik: Menyala";
+                btnIcon.className = "fa-solid fa-volume-high text-emerald-600 animate-pulse";
+            }
+        }
+
+        /* ==========================================================================
+           NAVIGATION & SECTION SWITCHING
+           ========================================================================== */
+        function showSection(sectionId) {
+            const sections = ['home', 'panduan', 'materi', 'gim', 'quiz', 'pengembang'];
+            sections.forEach(sec => {
+                const el = document.getElementById(`sec-${sec}`);
+                if (sec === sectionId) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+
+        /* ==========================================================================
+           MATERI SUB-TABS & SIMULATOR LOGIC
+           ========================================================================== */
+        function switchMateriTab(tabId) {
+            ['tab1', 'tab2', 'tab3'].forEach(t => {
+                const content = document.getElementById(`materi-content-${t}`);
+                const btn = document.getElementById(`m-${t}`);
+                if (t === tabId) {
+                    content.classList.remove('hidden');
+                    btn.className = "materi-tab-btn px-5 py-3 rounded-xl font-bold text-sm bg-sky-500 text-white shadow-md transition";
+                } else {
+                    content.classList.add('hidden');
+                    btn.className = "materi-tab-btn px-5 py-3 rounded-xl font-bold text-sm text-slate-600 hover:bg-slate-100 transition";
+                }
+            });
+        }
+
+        const simData = { waktu: '', tempat: '', subjek: '', objek: '', kerja: '' };
+
+        function setSimSlot(type, value) {
+            simData[type] = value;
+            document.getElementById(`slot-${type}`).innerText = value.split(' ')[0];
+            updateSimResult();
+        }
+
+        function updateSimResult() {
+            const kr = `${simData.waktu ? simData.waktu.split(' ')[0] : '...'} ${simData.tempat ? simData.tempat.split(' ')[0] : '...'} ${simData.subjek ? simData.subjek.split(' ')[0] : '...'} ${simData.objek ? simData.objek.split(' ')[0] : '...'} ${simData.kerja ? simData.kerja.split(' ')[0] : '...'}`;
+            document.getElementById('sim-result-korean').innerText = kr;
+            
+            let idText = "";
+            if(simData.waktu) idText += simData.waktu.split('(')[1].replace(')', '') + " ";
+            if(simData.tempat) idText += simData.tempat.split('(')[1].replace(')', '') + " ";
+            if(simData.subjek) idText += simData.subjek.split('(')[1].replace(')', '') + " ";
+            if(simData.objek) idText += simData.objek.split('(')[1].replace(')', '') + " ";
+            if(simData.kerja) idText += simData.kerja.split('(')[1].replace(')', '');
+            
+            document.getElementById('sim-result-indo').innerText = idText ? `"${idText.trim()}"` : '"..."';
+        }
+
+        /* ==========================================================================
+           3 MINI GAMES LOGIC
+           ========================================================================== */
+        function switchGame(gameNum) {
+            [1, 2, 3].forEach(n => {
+                document.getElementById(`game-${n}`).classList.toggle('hidden', n !== gameNum);
+                const btn = document.getElementById(`gbtn-${n}`);
+                if (n === gameNum) {
+                    btn.className = "px-4 py-2 rounded-xl font-bold text-sm bg-purple-600 text-white shadow-md";
+                } else {
+                    btn.className = "px-4 py-2 rounded-xl font-bold text-sm bg-slate-100 text-slate-700 hover:bg-slate-200";
+                }
+            });
+        }
+
+        // --- GIM 1: SUSUN KALIMAT ---
+        const g1Data = [
+            { target: "Hari ini saya belajar bahasa Korea di sekolah.", correct: ["오늘", "학교에서", "저는", "한국어를", "공부합니다"], words: ["학교에서", "공부합니다", "오늘", "한국어를", "저는", "카페에"] },
+            { target: "Kami mendengarkan musik di kafe pada akhir pekan.", correct: ["주말에", "카페에서", "우리는", "음악을", "듣습니다"], words: ["우리는", "주말에", "듣습니다", "카페에서", "음악을", "책을"] }
+        ];
+        let g1CurrentIdx = 0;
+        let g1Selected = [];
+        let g1Score = 0;
+
+        function initGame1() {
+            const item = g1Data[g1CurrentIdx];
+            document.getElementById('g1-target-sentence').innerText = `"${item.target}"`;
+            g1Selected = [];
+            renderGame1();
+        }
+
+        function renderGame1() {
+            const item = g1Data[g1CurrentIdx];
+            const slotBox = document.getElementById('g1-user-slots');
+            if (g1Selected.length === 0) {
+                slotBox.innerHTML = `<span class="text-xs text-slate-400 font-medium italic">Klik blok kata di bawah untuk menyusun...</span>`;
+            } else {
+                slotBox.innerHTML = g1Selected.map((w, i) => `
+                    <button onclick="removeG1Word(${i})" class="bg-purple-600 text-white px-3 py-1.5 rounded-xl font-bold text-sm shadow hover:bg-purple-700">
+                        ${w} <i class="fa-solid fa-xmark text-xs ml-1"></i>
+                    </button>
+                `).join('');
+            }
+
+            const optBox = document.getElementById('g1-word-options');
+            optBox.innerHTML = item.words.map(w => {
+                const isUsed = g1Selected.includes(w);
+                return `
+                    <button onclick="addG1Word('${w}')" ${isUsed ? 'disabled' : ''} class="${isUsed ? 'opacity-40 cursor-not-allowed bg-slate-200' : 'bg-white hover:bg-purple-100'} text-slate-800 border border-slate-300 px-4 py-2 rounded-xl font-bold text-sm shadow-sm transition">
+                        ${w}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function addG1Word(word) {
+            g1Selected.push(word);
+            renderGame1();
+        }
+
+        function removeG1Word(index) {
+            g1Selected.splice(index, 1);
+            renderGame1();
+        }
+
+        function resetGame1() {
+            g1Selected = [];
+            renderGame1();
+        }
+
+        function checkGame1() {
+            const item = g1Data[g1CurrentIdx];
+            const isCorrect = JSON.stringify(g1Selected) === JSON.stringify(item.correct);
+            if (isCorrect) {
+                AudioFX.playCorrect();
+                g1Score += 50;
+                document.getElementById('g1-score').innerText = g1Score;
+                alert("🎉 Correct! Kalimat tersusun dengan sangat tepat!");
+                g1CurrentIdx = (g1CurrentIdx + 1) % g1Data.length;
+                initGame1();
+            } else {
+                AudioFX.playWrong();
+                alert("❌ Masih belum tepat. Perhatikan urutan: Waktu + Tempat + Subjek + Objek + KK!");
+            }
+        }
+
+        // --- GIM 2: DETEKTIF PARTIKEL ---
+        const g2Data = [
+            { q: "저는 오늘 학교[ ? ] 갑니다.", tr: "(Saya hari ini pergi KE sekolah.)", ans: "에" },
+            { q: "학생들은 도서관[ ? ] 책을 읽습니다.", tr: "(Siswa membaca buku DI perpustakaan.)", ans: "에서" },
+            { q: "우리는 내일 영화관[ ? ] 영화를 봅니다.", tr: "(Kami besok menonton film DI bioskop.)", ans: "에서" }
+        ];
+        let g2CurrentIdx = 0;
+        let g2Score = 0;
+
+        function initGame2() {
+            const item = g2Data[g2CurrentIdx];
+            document.getElementById('g2-question').innerText = item.q;
+            document.getElementById('g2-translation').innerText = item.tr;
+        }
+
+        function answerGame2(chosen) {
+            const item = g2Data[g2CurrentIdx];
+            if (chosen === item.ans) {
+                AudioFX.playCorrect();
+                g2Score += 30;
+                document.getElementById('g2-score').innerText = g2Score;
+                alert(`✅ Benar! Gunakan '${item.ans}' untuk kalimat ini.`);
+            } else {
+                AudioFX.playWrong();
+                alert(`❌ Kurang tepat. Jawaban yang benar adalah '${item.ans}'.`);
+            }
+            g2CurrentIdx = (g2CurrentIdx + 1) % g2Data.length;
+            initGame2();
+        }
+
+        // --- GIM 3: KILAT KOSAKATA ---
+        const g3Data = [
+            { word: "학교", opts: ["Sekolah", "Rumah", "Toko", "Bioskop"], ans: 0 },
+            { word: "친구", opts: ["Guru", "Teman", "Siswa", "Adik"], ans: 1 },
+            { word: "도서관", opts: ["Taman", "Kelas", "Perpustakaan", "Kantin"], ans: 2 },
+            { word: "공부하다", opts: ["Membaca", "Belajar", "Menulis", "Mendengar"], ans: 1 }
+        ];
+        let g3CurrentIdx = 0;
+        let g3Score = 0;
+
+        function initGame3() {
+            const item = g3Data[g3CurrentIdx];
+            document.getElementById('g3-korean-word').innerText = item.word;
+            const container = document.getElementById('g3-options');
+            container.innerHTML = item.opts.map((opt, i) => `
+                <button onclick="answerGame3(${i})" class="btn-pixar bg-white hover:bg-amber-100 text-slate-800 p-4 rounded-xl border border-amber-200 font-bold text-base text-left">
+                    ${i + 1}. ${opt}
+                </button>
+            `).join('');
+        }
+
+        function answerGame3(idx) {
+            const item = g3Data[g3CurrentIdx];
+            if (idx === item.ans) {
+                AudioFX.playCorrect();
+                g3Score += 25;
+                document.getElementById('g3-score').innerText = g3Score;
+                alert("✨ Tepat sekali!");
+            } else {
+                AudioFX.playWrong();
+                alert(`❌ Kurang tepat. Arti '${item.word}' adalah '${item.opts[item.ans]}'.`);
+            }
+            g3CurrentIdx = (g3CurrentIdx + 1) % g3Data.length;
+            initGame3();
+        }
+
+        /* ==========================================================================
+           KUIS EVALUASI (5 PG)
+           ========================================================================== */
+        const quizQuestions = [
+            {
+                q: "Bagaimanakah urutan pola dasar kalimat Bahasa Korea yang benar?",
+                options: [
+                    "Subjek (S) + Predikat (P) + Objek (O)",
+                    "Subjek (S) + Objek (O) + Predikat / Kata Kerja (V)",
+                    "Predikat / Kata Kerja (V) + Subjek (S) + Objek (O)",
+                    "Objek (O) + Subjek (S) + Predikat (V)"
+                ],
+                ans: 1,
+                explanation: "Bahasa Korea menggunakan pola S + O + V (Predikat di akhir kalimat)."
+            },
+            {
+                q: "Manakah partikel yang tepat untuk menandai Objek dalam kalimat Bahasa Korea?",
+                options: [
+                    "은 / 는",
+                    "에 / 에서",
+                    "을 / 를",
+                    "이 / 가"
+                ],
+                ans: 2,
+                explanation: "Partikel 을/를 digunakan sebagai penanda Objek."
+            },
+            {
+                q: "Perhatikan kalimat: '저는 도서관에서 책을 읽습니다.' Apakah arti partikel '에서' pada kalimat tersebut?",
+                options: [
+                    "Ke (Tujuan)",
+                    "Pada (Waktu)",
+                    "Di (Tempat berlangsungnya aktivitas)",
+                    "Dan (Penghubung)"
+                ],
+                ans: 2,
+                explanation: "Partikel '에서' menunjukkan tempat terjadinya suatu kegiatan/aktivitas (membaca buku di perpustakaan)."
+            },
+            {
+                q: "Susunlah kata-kata berikut menjadi kalimat yang benar: [한국어를 / 저는 / 학교에서 / 공부합니다]",
+                options: [
+                    "저는 학교에서 한국어를 공부합니다.",
+                    "공부합니다 한국어를 학교에서 저는.",
+                    "학교에서 공부합니다 저는 한국어를.",
+                    "한국어를 저는 공부합니다 학교에서."
+                ],
+                ans: 0,
+                explanation: "Urutan yang benar: Subjek (저는) + Tempat (학교에서) + Objek (한국어를) + Kata Kerja (공부합니다)."
+            },
+            {
+                q: "Manakah kalimat Bahasa Korea yang berarti 'Kami belajar bahasa Korea di sekolah kemarin'?",
+                options: [
+                    "내일 학교에 우리는 한국어를 공부합니다.",
+                    "어제 학교에서 우리는 한국어를 공부했습니다.",
+                    "오늘 카페에서 저는 음악을 듣습니다.",
+                    "매일 집에서 그는 책을 읽습니다."
+                ],
+                ans: 1,
+                explanation: "'어제' (kemarin) + '학교에서' (di sekolah) + '우리는' (kami) + '한국어를' (bahasa Korea) + '공부했습니다' (belajar)."
+            }
+        ];
+
+        let quizIndex = 0;
+        let quizScore = 0;
+
+        function loadQuizQuestion() {
+            const q = quizQuestions[quizIndex];
+            document.getElementById('quiz-q-number').innerText = `Soal #${quizIndex + 1}`;
+            document.getElementById('quiz-q-text').innerText = q.q;
+            document.getElementById('quiz-progress-text').innerText = `Soal ${quizIndex + 1} dari ${quizQuestions.length}`;
+
+            const container = document.getElementById('quiz-options-container');
+            container.innerHTML = q.options.map((opt, idx) => `
+                <button onclick="submitQuizAnswer(${idx})" class="quiz-opt-btn w-full text-left p-4 rounded-xl bg-white hover:bg-rose-100/60 border border-rose-200 text-slate-800 font-semibold text-sm transition flex items-center justify-between">
+                    <span>${String.fromCharCode(65 + idx)}. ${opt}</span>
+                    <i class="fa-regular fa-circle text-slate-300"></i>
+                </button>
+            `).join('');
+
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('quiz-next-btn').classList.add('hidden');
+        }
+
+        function submitQuizAnswer(chosenIdx) {
+            const q = quizQuestions[quizIndex];
+            const isCorrect = chosenIdx === q.ans;
+            
+            // Disable all buttons
+            const btns = document.querySelectorAll('.quiz-opt-btn');
+            btns.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === q.ans) {
+                    btn.className = "quiz-opt-btn w-full text-left p-4 rounded-xl bg-emerald-100 border-2 border-emerald-500 text-emerald-900 font-bold text-sm flex items-center justify-between";
+                } else if (idx === chosenIdx) {
+                    btn.className = "quiz-opt-btn w-full text-left p-4 rounded-xl bg-rose-100 border-2 border-rose-500 text-rose-900 font-bold text-sm flex items-center justify-between";
+                }
+            });
+
+            const fb = document.getElementById('quiz-feedback');
+            fb.classList.remove('hidden');
+
+            if (isCorrect) {
+                AudioFX.playCorrect();
+                quizScore += 20;
+                fb.className = "p-4 rounded-xl font-semibold text-sm bg-emerald-100 border border-emerald-300 text-emerald-800";
+                fb.innerHTML = `✅ <strong>Jawaban Benar!</strong> ${q.explanation}`;
+            } else {
+                AudioFX.playWrong();
+                fb.className = "p-4 rounded-xl font-semibold text-sm bg-rose-100 border border-rose-300 text-rose-800";
+                fb.innerHTML = `❌ <strong>Jawaban Kurang Tepat.</strong> ${q.explanation}`;
+            }
+
+            document.getElementById('quiz-next-btn').classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            quizIndex++;
+            if (quizIndex < quizQuestions.length) {
+                loadQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-card').classList.add('hidden');
+            const resCard = document.getElementById('quiz-result-card');
+            resCard.classList.remove('hidden');
+
+            document.getElementById('quiz-final-score').innerText = quizScore;
+            let remark = "Tetap semangat belajar!";
+            if (quizScore === 100) remark = "Sangat Luar Biasa! Pemahamanmu Sempurna! 🎉";
+            else if (quizScore >= 60) remark = "Bagus Sekali! Tingkatkan sedikit lagi! 👍";
+            
+            document.getElementById('quiz-score-remark').innerText = remark;
+        }
+
+        function restartQuiz() {
+            quizIndex = 0;
+            quizScore = 0;
+            document.getElementById('quiz-result-card').classList.add('hidden');
+            document.getElementById('quiz-card').classList.remove('hidden');
+            loadQuizQuestion();
+        }
+
+        /* ==========================================================================
+           INITIALIZATION ON LOAD
+           ========================================================================== */
+        window.onload = function() {
+            initGame1();
+            initGame2();
+            initGame3();
+            loadQuizQuestion();
+        };
+    </script>
+</body>
+</html>
